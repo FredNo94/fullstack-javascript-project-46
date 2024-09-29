@@ -1,4 +1,6 @@
 import { program } from 'commander';
+import { parseFile } from './parseFile.js';
+import { compare } from './compare.js';
 
 program
     .name('gendiff')
@@ -8,7 +10,9 @@ program
     .argument('<filepath1>', 'Введите путь до первого файла')
     .argument('<filepath2>', 'Введите путь до второго файла')
     .action((filepath1, filepath2) => {
-        console.log(filepath1, filepath2)
+        const objOne =  parseFile(filepath1);
+        const objTwo =  parseFile(filepath2);
+        compare(objOne, objTwo);
     });
     
 program.parse();
