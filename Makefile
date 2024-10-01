@@ -1,6 +1,12 @@
 install: deps-install
 	npx simple-git-hooks
 
+deps-install:
+	npm ci --legacy-peer-deps
+
+deps-update:
+	npx ncu -u
+
 gendiff:
 	node bin/gendiff.js
 
