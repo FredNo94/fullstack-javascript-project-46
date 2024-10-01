@@ -1,5 +1,5 @@
-import gendiff from '../src/index.js';
-import parseFile from '../src/parseFile.js';
+// import gendiff from '../src/index.js';
+// import parseFile from '../src/parseFile.js';
 import compare from '../src/compare.js';
 
 test('Test function compare with normal file', () => {
