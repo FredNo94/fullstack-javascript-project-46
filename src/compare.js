@@ -14,7 +14,9 @@ function compare(file1, file2) {
       result += `  + ${keys[i]}: ${file2[keys[i]]}\n`;
     }
   }
-  console.log(`{${result}}`);
+
+  result = `{${result}}`;
+  console.log(result);
   return result;
 }
 
