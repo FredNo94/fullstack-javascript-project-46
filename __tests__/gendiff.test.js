@@ -1,9 +1,9 @@
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import childProcess from 'child_process';
 import parseFile from '../src/parseFile.js';
 import compare from '../src/compare.js';
-import childProcess from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
