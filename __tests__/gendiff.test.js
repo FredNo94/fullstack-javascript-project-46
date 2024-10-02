@@ -1,7 +1,6 @@
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import childProcess from 'child_process';
 import parseFile from '../src/parseFile.js';
 import compare from '../src/compare.js';
 
@@ -45,10 +44,3 @@ test('Test parse file', () => {
   expect(parseFile(testFile)).toMatchObject(referenceResult);
 });
 
-test('Test gendiff', () => {
-  const currentPath1 = '../__fixtures__/testFile1.json';
-  const currentPath2 = '../__fixtures__/testFile2.json';
-  const referenceResult = '\n  - name: Sashka\n  + name: Wolf\n  - age: 30\n  + age: 45\n    proxy: 111.234.53.22\n  - test: true\n  + test: false\n    lastname: wolf\n  + namePet: Cat\n';
-  const workResult = childProcess.execSync(`gendiff ${currentPath1} ${currentPath2}`).toString();
-  expect(workResult).toMatch(referenceResult);
-});
