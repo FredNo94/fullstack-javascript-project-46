@@ -1,6 +1,11 @@
-// import gendiff from '../src/index.js';
-// import parseFile from '../src/parseFile.js';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import parseFile from '../src/parseFile.js';
 import compare from '../src/compare.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 test('Test function compare with normal file', () => {
   const testFile1 = { one: 'test comment' };
@@ -28,4 +33,13 @@ test('Test function compare all file empty', () => {
   const testFile2 = {};
   const referenceResult = '{\n}';
   expect(compare(testFile1, testFile2)).toBe(referenceResult);
+});
+
+test('Test parse file', () => {
+  const currentPath = `${__dirname}/../__fixtures__/testFile1.json`;
+  const testFile = resolve(currentPath);
+  const referenceResult = {
+    age: 30, lastname: 'wolf', name: 'Sashka', proxy: '111.234.53.22', test: true,
+  };
+  expect(parseFile(testFile)).toMatchObject(referenceResult);
 });
