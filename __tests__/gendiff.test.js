@@ -43,4 +43,3 @@ test('Test parse file', () => {
   };
   expect(parseFile(testFile)).toMatchObject(referenceResult);
 });
-
