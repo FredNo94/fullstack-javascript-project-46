@@ -1,7 +1,7 @@
 import { program } from 'commander';
 import { cwd } from 'node:process';
 import { resolve } from 'node:path';
-import parseFile from './parseFile.js';
+import parseFile from './parsers.js';
 import compare from './compare.js';
 
 function gendiff() {
