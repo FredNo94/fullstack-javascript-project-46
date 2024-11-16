@@ -1,10 +1,10 @@
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { readFileSync } from 'node:fs';
 import parseFile from '../src/parsers.js';
 import compare from '../src/compare.js';
 import formatter from '../src/formatter.js';
-import { readFileSync } from 'node:fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -12,21 +12,21 @@ const __dirname = dirname(__filename);
 test('Test function compare with normal file', () => {
   const testFile1 = { one: 'test comment' };
   const testFile2 = { two: 'test comment 2' };
-  const referenceResult = [{"key": "one", "state": "deleted", "value": "test comment"}, {"key": "two", "state": "added", "value": "test comment 2"}];
+  const referenceResult = [{ key: 'one', state: 'deleted', value: 'test comment' }, { key: 'two', state: 'added', value: 'test comment 2' }];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
 test('Test function compare with first empty file', () => {
   const testFile1 = {};
   const testFile2 = { two: 'test comment 2' };
-  const referenceResult = [{"key": "two", "state": "added", "value": "test comment 2"}];
+  const referenceResult = [{ key: 'two', state: 'added', value: 'test comment 2' }];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
 test('Test function compare with second empty file', () => {
   const testFile1 = { one: 'test comment' };
   const testFile2 = {};
-  const referenceResult = [{"key": "one", "state": "deleted", "value": "test comment"}];
+  const referenceResult = [{ key: 'one', state: 'deleted', value: 'test comment' }];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
@@ -67,14 +67,14 @@ test('Test parse file in format yml', () => {
 test('Test function compare with normal file with same data', () => {
   const testFile1 = { one: 'test comment 2' };
   const testFile2 = { one: 'test comment 2' };
-  const referenceResult = [{"key": "one", "state": "unchanged", "value": "test comment 2"}];
+  const referenceResult = [{ key: 'one', state: 'unchanged', value: 'test comment 2' }];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
 test('Test function compare with normal file with same key', () => {
   const testFile1 = { one: 'test comment 2' };
   const testFile2 = { one: 'test comment 20' };
-  const referenceResult = [{"key": "one", "state": "deleted", "value": "test comment 2"}, {"key": "one", "state": "added", "value": "test comment 20"}];
+  const referenceResult = [{ key: 'one', state: 'deleted', value: 'test comment 2' }, { key: 'one', state: 'added', value: 'test comment 20' }];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
