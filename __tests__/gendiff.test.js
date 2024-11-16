@@ -3,6 +3,8 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import parseFile from '../src/parsers.js';
 import compare from '../src/compare.js';
+import formatter from '../src/formatter.js';
+import { readFileSync } from 'node:fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,29 +12,29 @@ const __dirname = dirname(__filename);
 test('Test function compare with normal file', () => {
   const testFile1 = { one: 'test comment' };
   const testFile2 = { two: 'test comment 2' };
-  const referenceResult = '{\n  - one: test comment\n  + two: test comment 2\n}';
-  expect(compare(testFile1, testFile2)).toBe(referenceResult);
+  const referenceResult = [{"key": "one", "state": "deleted", "value": "test comment"}, {"key": "two", "state": "added", "value": "test comment 2"}];
+  expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
 test('Test function compare with first empty file', () => {
   const testFile1 = {};
   const testFile2 = { two: 'test comment 2' };
-  const referenceResult = '{\n  + two: test comment 2\n}';
-  expect(compare(testFile1, testFile2)).toBe(referenceResult);
+  const referenceResult = [{"key": "two", "state": "added", "value": "test comment 2"}];
+  expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
 test('Test function compare with second empty file', () => {
   const testFile1 = { one: 'test comment' };
   const testFile2 = {};
-  const referenceResult = '{\n  - one: test comment\n}';
-  expect(compare(testFile1, testFile2)).toBe(referenceResult);
+  const referenceResult = [{"key": "one", "state": "deleted", "value": "test comment"}];
+  expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
 test('Test function compare all file empty', () => {
   const testFile1 = {};
   const testFile2 = {};
-  const referenceResult = '{\n}';
-  expect(compare(testFile1, testFile2)).toBe(referenceResult);
+  const referenceResult = [];
+  expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
 test('Test parse file', () => {
@@ -65,13 +67,35 @@ test('Test parse file in format yml', () => {
 test('Test function compare with normal file with same data', () => {
   const testFile1 = { one: 'test comment 2' };
   const testFile2 = { one: 'test comment 2' };
-  const referenceResult = '{\n    one: test comment 2\n}';
-  expect(compare(testFile1, testFile2)).toBe(referenceResult);
+  const referenceResult = [{"key": "one", "state": "unchanged", "value": "test comment 2"}];
+  expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
 test('Test function compare with normal file with same key', () => {
   const testFile1 = { one: 'test comment 2' };
   const testFile2 = { one: 'test comment 20' };
-  const referenceResult = '{\n  - one: test comment 2\n  + one: test comment 20\n}';
-  expect(compare(testFile1, testFile2)).toBe(referenceResult);
+  const referenceResult = [{"key": "one", "state": "deleted", "value": "test comment 2"}, {"key": "one", "state": "added", "value": "test comment 20"}];
+  expect(compare(testFile1, testFile2)).toEqual(referenceResult);
+});
+
+test('Test function compare with depth normal files json', () => {
+  const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
+  const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
+  const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
+  const fileOne = parseFile(resolve(pathOne));
+  const fileTwo = parseFile(resolve(pathTwo));
+  const fileCompare = compare(fileOne, fileTwo);
+  const referenceResult = readFileSync((pathResolve), 'utf8');
+  expect(formatter(fileCompare)).toBe(referenceResult);
+});
+
+test('Test function compare with depth normal files yaml/yml', () => {
+  const pathOne = `${__dirname}/../__fixtures__/testFile7.yaml`;
+  const pathTwo = `${__dirname}/../__fixtures__/testFile8.yml`;
+  const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
+  const fileOne = parseFile(resolve(pathOne));
+  const fileTwo = parseFile(resolve(pathTwo));
+  const fileCompare = compare(fileOne, fileTwo);
+  const referenceResult = readFileSync((pathResolve), 'utf8');
+  expect(formatter(fileCompare)).toBe(referenceResult);
 });
