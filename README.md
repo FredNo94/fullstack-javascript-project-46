@@ -5,3 +5,9 @@
 
 ### Asciinema with an example of compare files:
 https://asciinema.org/a/Di5TRYxQ5KQxxMvH7FXeJgEtj
+
+### Asciinema with an example of compare files in format yaml and yml:
+https://asciinema.org/a/aXGGghmmuF6ZOSHOikuKeQ5Ju
+
+### Asciinema with an example of compare files in format json with depth check:
+https://asciinema.org/a/5eOlrJOgzt7MoHedf8dfilZnd
