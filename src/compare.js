@@ -9,7 +9,9 @@ function compare(file1, file2) {
       } if (fileOne[keyN] === undefined) {
         return { key: keyN, value: fileTwo[keyN], state: 'added' };
       } if (fileOne[keyN] !== fileTwo[keyN]) {
-        return [{ key: keyN, value: fileOne[keyN], state: 'deleted' }, { key: keyN, value: fileTwo[keyN], state: 'added' }];
+        return {
+          key: keyN, value: fileOne[keyN], newValue: fileTwo[keyN], state: 'changed',
+        };
       }
       return { key: keyN, value: fileOne[keyN], state: 'unchanged' };
     });

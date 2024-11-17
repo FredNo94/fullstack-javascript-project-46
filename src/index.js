@@ -3,7 +3,7 @@ import { cwd } from 'node:process';
 import { resolve } from 'node:path';
 import parseFile from './parsers.js';
 import compare from './compare.js';
-import formatter from './formatter.js';
+import outputInFormat from '../formatters/index.js';
 
 function gendiff() {
   program
@@ -20,7 +20,7 @@ function gendiff() {
       const objOne = parseFile(fileOne);
       const objTwo = parseFile(fileTwo);
       const resultCompare = compare(objOne, objTwo);
-      console.log(formatter(resultCompare, type));
+      console.log(outputInFormat(type, resultCompare));
     });
 
   program.parse();

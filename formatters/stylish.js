@@ -11,7 +11,7 @@ function getState(state) {
   }
 }
 
-function formatter(inputData, type, spacesCount = 4) {
+function stylish(inputData, spacesCount = 4) {
   const replacer = ' ';
 
   const iter = (data, depth) => {
@@ -24,6 +24,9 @@ function formatter(inputData, type, spacesCount = 4) {
       const lines = data.map((node) => {
         const state = getState(node.state);
         const depthValue = replacer.repeat(depth * spacesCount - 2);
+        if (node.state === 'changed') {
+          return `${depthValue}- ${node.key}: ${iter(node.value, depth + 1)}\n${depthValue}+ ${node.key}: ${iter(node.newValue, depth + 1)}`;
+        }
         return `${depthValue}${state} ${node.key}: ${iter(node.value, depth + 1)}`;
       });
       return ['{', ...lines, `${closingDepth}}`].join('\n');
@@ -39,4 +42,4 @@ function formatter(inputData, type, spacesCount = 4) {
   return iter(inputData, 1);
 }
 
-export default formatter;
+export default stylish;

@@ -4,7 +4,8 @@ import { dirname } from 'path';
 import { readFileSync } from 'node:fs';
 import parseFile from '../src/parsers.js';
 import compare from '../src/compare.js';
-import formatter from '../src/formatter.js';
+import formatter from '../formatters/stylish.js';
+import outputInFormat from '../formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -74,7 +75,9 @@ test('Test function compare with normal file with same data', () => {
 test('Test function compare with normal file with same key', () => {
   const testFile1 = { one: 'test comment 2' };
   const testFile2 = { one: 'test comment 20' };
-  const referenceResult = [{ key: 'one', state: 'deleted', value: 'test comment 2' }, { key: 'one', state: 'added', value: 'test comment 20' }];
+  const referenceResult = [{
+    key: 'one', value: 'test comment 2', newValue: 'test comment 20', state: 'changed',
+  }];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
@@ -86,7 +89,7 @@ test('Test function compare with depth normal files json', () => {
   const fileTwo = parseFile(resolve(pathTwo));
   const fileCompare = compare(fileOne, fileTwo);
   const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(formatter(fileCompare)).toBe(referenceResult);
+  expect(formatter(fileCompare)).toEqual(referenceResult);
 });
 
 test('Test function compare with depth normal files yaml/yml', () => {
@@ -97,5 +100,16 @@ test('Test function compare with depth normal files yaml/yml', () => {
   const fileTwo = parseFile(resolve(pathTwo));
   const fileCompare = compare(fileOne, fileTwo);
   const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(formatter(fileCompare)).toBe(referenceResult);
+  expect(formatter(fileCompare)).toEqual(referenceResult);
+});
+
+test('Test function compare with depth normal files yaml/yml in plain format', () => {
+  const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
+  const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
+  const pathResolve = `${__dirname}/../__fixtures__/resultComparePlain`;
+  const fileOne = parseFile(resolve(pathOne));
+  const fileTwo = parseFile(resolve(pathTwo));
+  const fileCompare = compare(fileOne, fileTwo);
+  const referenceResult = readFileSync((pathResolve), 'utf8');
+  expect(outputInFormat({ format: 'plain' }, fileCompare)).toEqual(referenceResult);
 });
