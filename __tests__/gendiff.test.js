@@ -4,7 +4,6 @@ import { dirname } from 'path';
 import { readFileSync } from 'node:fs';
 import parseFile from '../src/parsers.js';
 import compare from '../src/compare.js';
-import formatter from '../formatters/stylish.js';
 import outputInFormat from '../formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -89,7 +88,7 @@ test('Test function compare with depth normal files json', () => {
   const fileTwo = parseFile(resolve(pathTwo));
   const fileCompare = compare(fileOne, fileTwo);
   const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(formatter(fileCompare)).toEqual(referenceResult);
+  expect(outputInFormat({ format: 'stylish' }, fileCompare)).toEqual(referenceResult);
 });
 
 test('Test function compare with depth normal files yaml/yml', () => {
@@ -100,7 +99,7 @@ test('Test function compare with depth normal files yaml/yml', () => {
   const fileTwo = parseFile(resolve(pathTwo));
   const fileCompare = compare(fileOne, fileTwo);
   const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(formatter(fileCompare)).toEqual(referenceResult);
+  expect(outputInFormat({ format: 'stylish' }, fileCompare)).toEqual(referenceResult);
 });
 
 test('Test function compare with depth normal files yaml/yml in plain format', () => {
@@ -112,4 +111,13 @@ test('Test function compare with depth normal files yaml/yml in plain format', (
   const fileCompare = compare(fileOne, fileTwo);
   const referenceResult = readFileSync((pathResolve), 'utf8');
   expect(outputInFormat({ format: 'plain' }, fileCompare)).toEqual(referenceResult);
+});
+
+test('Test function compare with depth normal files yaml/yml in json format', () => {
+  const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
+  const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
+  const fileOne = parseFile(resolve(pathOne));
+  const fileTwo = parseFile(resolve(pathTwo));
+  const fileCompare = compare(fileOne, fileTwo);
+  expect(() => { JSON.parse(outputInFormat({ format: 'json' }, fileCompare)); }).not.toThrow();
 });
