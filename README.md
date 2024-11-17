@@ -11,3 +11,6 @@ https://asciinema.org/a/aXGGghmmuF6ZOSHOikuKeQ5Ju
 
 ### Asciinema with an example of compare files in format json with depth check:
 https://asciinema.org/a/5eOlrJOgzt7MoHedf8dfilZnd
+
+### Asciinema with an example of compare files in format json with depth and output in plain format:
+https://asciinema.org/a/NdnnE2pcmgONe92IhnKZ4nipF
