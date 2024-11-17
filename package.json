@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/FredNo94/fullstack-javascript-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/FredNo94/fullstack-javascript-project-46/actions)",
   "type": "module",
-  "main": ".src/compare.js",
+  "main": "src/compare.js",
   "scripts": {
     "test": "npx jest"
   },

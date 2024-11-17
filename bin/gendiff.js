@@ -24,4 +24,4 @@ program
     console.log(outputInFormat(type, resultCompare));
   });
 
-program.parse(process.argv);
+program.parse();
