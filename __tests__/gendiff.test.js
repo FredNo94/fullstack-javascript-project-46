@@ -37,31 +37,20 @@ test('Compare all file empty', () => {
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Check parse file', () => {
-  const currentPath = `${__dirname}/../__fixtures__/testFile1.json`;
-  const testFile = resolve(currentPath);
-  const referenceResult = {
+test.each([
+  ['testFile1.json', {
     age: 30, lastname: 'wolf', name: 'Sashka', proxy: '111.234.53.22', test: true,
-  };
-  expect(parseFile(testFile)).toMatchObject(referenceResult);
-});
-
-test('Check file in format yaml', () => {
-  const currentPath = `${__dirname}/../__fixtures__/testFile3.yaml`;
-  const testFile = resolve(currentPath);
-  const referenceResult = {
+  }],
+  ['testFile3.yaml', {
     age: 30, lastname: 'wolf', name: 'Sashka', proxy: '111.234.53.22', test: true,
-  };
-  expect(parseFile(testFile)).toMatchObject(referenceResult);
-});
-
-test('Check format yml', () => {
-  const currentPath = `${__dirname}/../__fixtures__/testFile4.yml`;
-  const testFile = resolve(currentPath);
-  const referenceResult = {
+  }],
+  ['testFile4.yml', {
     age: 45, lastname: 'wolf', name: 'Wolf', proxy: '111.234.53.22', test: false,
-  };
-  expect(parseFile(testFile)).toMatchObject(referenceResult);
+  }],
+])('Check parse file %s', (file, result) => {
+  const currentPath = `${__dirname}/../__fixtures__/${file}`;
+  const testFile = resolve(currentPath);
+  expect(parseFile(testFile)).toMatchObject(result);
 });
 
 test('Check compare normal file with same data', () => {
