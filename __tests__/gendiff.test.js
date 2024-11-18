@@ -46,7 +46,7 @@ test('Check parse file', () => {
   expect(parseFile(testFile)).toMatchObject(referenceResult);
 });
 
-test('Test parse file in format yaml', () => {
+test('Check file in format yaml', () => {
   const currentPath = `${__dirname}/../__fixtures__/testFile3.yaml`;
   const testFile = resolve(currentPath);
   const referenceResult = {
@@ -88,7 +88,7 @@ test('Check function compare with depth json', () => {
   expect(genDiff(pathOne, pathTwo)).toEqual(referenceResult);
 });
 
-test('Test function compare depth yaml/yml', () => {
+test('Check depth compare file yaml/yml', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile7.yaml`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile8.yml`;
   const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
