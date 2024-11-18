@@ -23,7 +23,7 @@ test('Check function compare with empty file', () => {
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Test function compare with second empty file', () => {
+test('Two empty file', () => {
   const testFile1 = { one: 'test comment' };
   const testFile2 = {};
   const referenceResult = [{ key: 'one', state: 'deleted', value: 'test comment' }];
@@ -60,7 +60,7 @@ test('Check compare normal file with same data', () => {
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Check function compare same key', () => {
+test('Function compare same key', () => {
   const testFile1 = { one: 'test comment 2' };
   const testFile2 = { one: 'test comment 20' };
   const referenceResult = [{
@@ -69,7 +69,7 @@ test('Check function compare same key', () => {
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Test check output in json format', () => {
+test('JSON format check', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
   expect(() => { JSON.parse(genDiff(pathOne, pathTwo, 'json')); }).not.toThrow();
