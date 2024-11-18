@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import parseFile from '../src/parsers.js';
 import compare from '../src/compare.js';
 import outputInFormat from '../formatters/index.js';
-import { genDiff } from '../src/index.js';
+import genDiff from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -117,5 +117,5 @@ test('Test function compare with depth normal files yaml/yml in plain format', (
 test('Test function compare with depth normal files yaml/yml in json format', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
-  expect(() => { JSON.parse(genDiff(pathOne, pathTwo, 'json')); }).not.toThrow();
+  expect(() => { JSON.parse(genDiff(pathOne, pathTwo, { format: 'json' })); }).not.toThrow();
 });
