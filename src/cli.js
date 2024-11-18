@@ -10,7 +10,7 @@ function cliGenDiff() {
     .argument('<filepath1>', 'Введите путь до первого файла')
     .argument('<filepath2>', 'Введите путь до второго файла')
     .action((filepath1, filepath2, type) => {
-      const result = genDiff(filepath1, filepath2, type);
+      const result = genDiff(filepath1, filepath2, type.format);
       console.log(result);
     });
   program.parse();
