@@ -9,14 +9,14 @@ import genDiff from '../src/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-test('Test function compare with normal file', () => {
+test('Compare normal file', () => {
   const testFile1 = { one: 'test comment' };
   const testFile2 = { two: 'test comment 2' };
   const referenceResult = [{ key: 'one', state: 'deleted', value: 'test comment' }, { key: 'two', state: 'added', value: 'test comment 2' }];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Test function compare with first empty file', () => {
+test('Check function compare with empty file', () => {
   const testFile1 = {};
   const testFile2 = { two: 'test comment 2' };
   const referenceResult = [{ key: 'two', state: 'added', value: 'test comment 2' }];
@@ -30,14 +30,14 @@ test('Test function compare with second empty file', () => {
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Test function compare all file empty', () => {
+test('Compare all file empty', () => {
   const testFile1 = {};
   const testFile2 = {};
   const referenceResult = [];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Test parse file', () => {
+test('Check parse file', () => {
   const currentPath = `${__dirname}/../__fixtures__/testFile1.json`;
   const testFile = resolve(currentPath);
   const referenceResult = {
@@ -55,7 +55,7 @@ test('Test parse file in format yaml', () => {
   expect(parseFile(testFile)).toMatchObject(referenceResult);
 });
 
-test('Test parse file in format yml', () => {
+test('Check format yml', () => {
   const currentPath = `${__dirname}/../__fixtures__/testFile4.yml`;
   const testFile = resolve(currentPath);
   const referenceResult = {
@@ -64,14 +64,14 @@ test('Test parse file in format yml', () => {
   expect(parseFile(testFile)).toMatchObject(referenceResult);
 });
 
-test('Test function compare with normal file with same data', () => {
+test('Check compare normal file with same data', () => {
   const testFile1 = { one: 'test comment 2' };
   const testFile2 = { one: 'test comment 2' };
   const referenceResult = [{ key: 'one', state: 'unchanged', value: 'test comment 2' }];
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Test function compare with normal file with same key', () => {
+test('Check function compare same key', () => {
   const testFile1 = { one: 'test comment 2' };
   const testFile2 = { one: 'test comment 20' };
   const referenceResult = [{
@@ -80,7 +80,7 @@ test('Test function compare with normal file with same key', () => {
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Test function compare with depth normal files json', () => {
+test('Check function compare with depth json', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
   const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
@@ -88,7 +88,7 @@ test('Test function compare with depth normal files json', () => {
   expect(genDiff(pathOne, pathTwo)).toEqual(referenceResult);
 });
 
-test('Test function compare with depth normal files yaml/yml', () => {
+test('Test function compare depth yaml/yml', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile7.yaml`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile8.yml`;
   const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
@@ -104,7 +104,7 @@ test('Test function compare with depth normal files yaml/yml in plain format', (
   expect(genDiff(pathOne, pathTwo, 'plain')).toEqual(referenceResult);
 });
 
-test('Test function compare with depth normal files yaml/yml in json format', () => {
+test('Test check output in json format', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
   expect(() => { JSON.parse(genDiff(pathOne, pathTwo, 'json')); }).not.toThrow();
