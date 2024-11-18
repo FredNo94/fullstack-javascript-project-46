@@ -79,7 +79,7 @@ test.each([
   ['testFile5.json', 'testFile6.json', 'default', 'resultCompareFile'], // [input1, input2, expectedResult]
   ['testFile7.yaml', 'testFile8.yml', 'default', 'resultCompareFile'],
   ['testFile5.json', 'testFile6.json', 'plain', 'resultComparePlain'],
-])('Test gendiff value %s and %s in format %s', (fileOne, fileTwo, format, result) => {
+])('Work gendiff with value %s and %s in format %s', (fileOne, fileTwo, format, result) => {
   const pathOne = `${__dirname}/../__fixtures__/${fileOne}`;
   const pathTwo = `${__dirname}/../__fixtures__/${fileTwo}`;
   const pathResolve = `${__dirname}/../__fixtures__/${result}`;
