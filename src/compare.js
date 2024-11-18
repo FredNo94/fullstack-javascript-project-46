@@ -1,7 +1,8 @@
+import _ from 'lodash';
+
 function compare(file1, file2) {
   const iter = (fileOne, fileTwo) => {
-    const arrayKeys = [...new Set([...Object.keys(fileOne), ...Object.keys(fileTwo)])];
-    const keys = arrayKeys.sort((a, b) => a.localeCompare(b));
+    const keys = _.sortBy([...new Set([...Object.keys(fileOne), ...Object.keys(fileTwo)])]);
 
     const result = keys.map((keyN) => {
       if (typeof fileOne[keyN] === 'object' && typeof fileTwo[keyN] === 'object' && fileOne[keyN] !== null && fileTwo[keyN] !== null) {

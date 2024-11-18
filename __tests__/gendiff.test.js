@@ -80,32 +80,20 @@ test('Check function compare same key', () => {
   expect(compare(testFile1, testFile2)).toEqual(referenceResult);
 });
 
-test('Check function compare with depth json', () => {
-  const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
-  const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
-  const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
-  const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(genDiff(pathOne, pathTwo)).toEqual(referenceResult);
-});
-
-test('Check depth compare file yaml/yml', () => {
-  const pathOne = `${__dirname}/../__fixtures__/testFile7.yaml`;
-  const pathTwo = `${__dirname}/../__fixtures__/testFile8.yml`;
-  const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
-  const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(genDiff(pathOne, pathTwo)).toEqual(referenceResult);
-});
-
-test('Test function compare with depth normal files yaml/yml in plain format', () => {
-  const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
-  const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
-  const pathResolve = `${__dirname}/../__fixtures__/resultComparePlain`;
-  const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(genDiff(pathOne, pathTwo, 'plain')).toEqual(referenceResult);
-});
-
 test('Test check output in json format', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
   expect(() => { JSON.parse(genDiff(pathOne, pathTwo, 'json')); }).not.toThrow();
+});
+
+test.each([
+  ['testFile5.json', 'testFile6.json', 'default', 'resultCompareFile'], // [input1, input2, expectedResult]
+  ['testFile7.yaml', 'testFile8.yml', 'default', 'resultCompareFile'],
+  ['testFile5.json', 'testFile6.json', 'plain', 'resultComparePlain'],
+])('Test gendiff value %s and %s in format %s', (fileOne, fileTwo, format, result) => {
+  const pathOne = `${__dirname}/../__fixtures__/${fileOne}`;
+  const pathTwo = `${__dirname}/../__fixtures__/${fileTwo}`;
+  const pathResolve = `${__dirname}/../__fixtures__/${result}`;
+  const referenceResult = readFileSync((pathResolve), 'utf8');
+  expect(genDiff(pathOne, pathTwo, format)).toEqual(referenceResult);
 });
