@@ -4,7 +4,6 @@ import { dirname } from 'path';
 import { readFileSync } from 'node:fs';
 import parseFile from '../src/parsers.js';
 import compare from '../src/compare.js';
-import outputInFormat from '../formatters/index.js';
 import genDiff from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -85,37 +84,28 @@ test('Test function compare with depth normal files json', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
   const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
-  const fileOne = parseFile(resolve(pathOne));
-  const fileTwo = parseFile(resolve(pathTwo));
-  const fileCompare = compare(fileOne, fileTwo);
   const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(outputInFormat({ format: 'stylish' }, fileCompare)).toEqual(referenceResult);
+  expect(genDiff(pathOne, pathTwo)).toEqual(referenceResult);
 });
 
 test('Test function compare with depth normal files yaml/yml', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile7.yaml`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile8.yml`;
   const pathResolve = `${__dirname}/../__fixtures__/resultCompareFile`;
-  const fileOne = parseFile(resolve(pathOne));
-  const fileTwo = parseFile(resolve(pathTwo));
-  const fileCompare = compare(fileOne, fileTwo);
   const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(outputInFormat({ format: 'stylish' }, fileCompare)).toEqual(referenceResult);
+  expect(genDiff(pathOne, pathTwo)).toEqual(referenceResult);
 });
 
 test('Test function compare with depth normal files yaml/yml in plain format', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
   const pathResolve = `${__dirname}/../__fixtures__/resultComparePlain`;
-  const fileOne = parseFile(resolve(pathOne));
-  const fileTwo = parseFile(resolve(pathTwo));
-  const fileCompare = compare(fileOne, fileTwo);
   const referenceResult = readFileSync((pathResolve), 'utf8');
-  expect(outputInFormat({ format: 'plain' }, fileCompare)).toEqual(referenceResult);
+  expect(genDiff(pathOne, pathTwo, 'plain')).toEqual(referenceResult);
 });
 
 test('Test function compare with depth normal files yaml/yml in json format', () => {
   const pathOne = `${__dirname}/../__fixtures__/testFile5.json`;
   const pathTwo = `${__dirname}/../__fixtures__/testFile6.json`;
-  expect(() => { JSON.parse(genDiff(pathOne, pathTwo, { format: 'json' })); }).not.toThrow();
+  expect(() => { JSON.parse(genDiff(pathOne, pathTwo, 'json')); }).not.toThrow();
 });
