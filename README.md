@@ -9,7 +9,7 @@ The Gendiff project is a console util for compare file in format json, yaml and 
 ### Installing the project 
 Use commands: <br>
 ```bash
-git clone git@github.com:FredNo94/fullstack-javascript-project-lvl1.git
+git clone git@github.com:FredNo94/fullstack-javascript-project-46.git
 ```
 ```bash
 make install
