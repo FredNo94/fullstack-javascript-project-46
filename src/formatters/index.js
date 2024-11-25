@@ -8,8 +8,10 @@ function outputInFormat(format, file) {
       return plain(file);
     case 'json':
       return json(file);
-    default:
+    case 'stylish':
       return stylish(file);
+    default:
+      return new Error(`Invalid format ${format.format}`);
   }
 }
 

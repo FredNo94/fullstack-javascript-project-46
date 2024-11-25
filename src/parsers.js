@@ -10,7 +10,7 @@ function parseFile(file) {
   } if (format === '.yml' || format === '.yaml') {
     return yaml.load(readFileSync(file));
   }
-  return undefined;
+  return new Error(`Invalid extenstion - ${format}`);
 }
 
 export default parseFile;
